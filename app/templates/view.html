@@ -1,0 +1,13 @@
+<html>
+	<head>
+		<title>MovieRec</title>
+	</head>
+	<body>
+		<h1>Hello! Let me recommend a movie to you!</h1>
+
+		<p>Because you watched "{{watched}}", we think you might also want to check out:</p>
+		{% block content %}
+		{{table | safe}}
+		{% endblock %}
+	</body>
+</html>
