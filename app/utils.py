@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-import seaborn as sns
+# import seaborn as sns
 from ast import literal_eval
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 from sklearn.metrics.pairwise import linear_kernel, cosine_similarity
@@ -15,7 +15,7 @@ def get_tops_by_genres(df, *genres, intersect=True, top=10):
         return df[df['genres'].apply(lambda x: set(genres).issubset(x))].head(top)
 
 def get_tops_by_year(df, year, top=10):
-    return df[df.year == str(year)].head(top)
+    return df[df.year == year].head(top)
 
 def get_recommendation_by_title(df, title, top=10):
     title_to_idx = {title: idx for title, idx in zip(df.title, range(df.shape[0]))}

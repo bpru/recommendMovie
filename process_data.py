@@ -34,7 +34,9 @@ def process_vote(df, vote_count_cutoff_percentile=0.95):
     return df
 
 df = process_vote(df)
-FEATURES = ['title', 'year', 'vote_count', 'vote_average', 'popularity', 'genres', 'weighted_rating', 'tagline', 'overview', 'id']
+FEATURES = ['title', 'year', 'vote_count', 'vote_average', 'popularity',
+            'genres', 'weighted_rating', 'tagline', 'overview', 'id',
+            'poster_path']
 df = df[FEATURES]
 
 def get_tops_by_genres(df, *genres, intersect=True, top=10):
