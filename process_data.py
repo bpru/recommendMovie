@@ -9,6 +9,7 @@ from nltk.stem.snowball import SnowballStemmer
 movie_md = pd.read_csv('./data/movies_metadata.csv', low_memory=False)
 df = movie_md.copy()
 
+
 def process_genres(df):
     '''
     process genres column using liter_eval to convert string to python object
@@ -66,9 +67,21 @@ def get_recommendation_by_title(df, title, cosine_sim, top=10):
 credits = pd.read_csv('./data/credits.csv')
 keywords = pd.read_csv('./data/keywords.csv')
 
+
+
+credits = credits.drop_duplicates(subset='id')
+keywords = keywords.drop_duplicates(subset='id')
+
+# print(keywords[np.isin(keywords.id, keywords.id[keywords.id.duplicated()])])
+print(credits.duplicated(['id']).sum())
+print(keywords.duplicated(['id']).sum())
+
 df['id'] = df['id'].astype(int)
+
 df = df.merge(credits, on='id')
+
 df = df.merge(keywords, on='id')
+print(df[df.duplicated(['id'])]['title'])
 df['cast'] = df['cast'].fillna('[]').apply(lambda x: [str.lower(i['name'].replace(" ","")) for i in literal_eval(x)][:3])
 def get_director(x):
     for i in x:
@@ -77,6 +90,7 @@ def get_director(x):
     return np.nan
 
 df['crew'] = df['crew'].fillna('[]').apply(lambda x: get_director(literal_eval(x)))
+
 # process keywords
 
 stemmer = SnowballStemmer('english')

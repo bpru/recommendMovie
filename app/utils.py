@@ -14,8 +14,8 @@ def get_tops_by_genres(df, *genres, intersect=True, top=10):
     else:
         return df[df['genres'].apply(lambda x: set(genres).issubset(x))].head(top)
 
-def get_tops_by_year(df, year, top=10):
-    return df[df.year == year].head(top)
+def get_tops_by_years(df, years, top=10):
+    return df[np.isin(df.year, years)].head(top)
 
 def get_recommendation_by_title(df, title, top=10):
     title_to_idx = {title: idx for title, idx in zip(df.title, range(df.shape[0]))}
@@ -26,6 +26,13 @@ def get_recommendation_by_title(df, title, top=10):
     scores = sorted(list(enumerate(cosine_sim[idx])), key=lambda x: x[1], reverse=True)
     movie_indices = list(map(lambda x: x[0], scores[1:top+1]))
     return df.iloc[movie_indices].sort_values('weighted_rating', ascending=False)
+
+def get_recommendation_by_titles(df, titles, top=10):
+    res = df.copy()
+    for title in titles:
+        res = res.merge(get_recommendation_by_title(df, title), on='id')
+    return res
+
 
 # df = pd.read_csv('./data/processed.csv')
 # print(get_recommendation_by_title(df, 'The Dark Knight').title)
