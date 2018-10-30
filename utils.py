@@ -28,9 +28,14 @@ def get_recommendation_by_title(df, title, top=10):
     return df.iloc[movie_indices].sort_values('weighted_rating', ascending=False)
 
 def get_recommendation_by_titles(df, titles, top=10):
-    res = df.copy()
+    rec_titles = set([])
+    # print(get_recommendation_by_title(df, 'Toy Story').title)
     for title in titles:
-        res = res.merge(get_recommendation_by_title(df, title), on='id')
+        print(title)
+        recs = set(get_recommendation_by_title(df, title)['title'].values)
+        print(recs)
+        rec_titles = rec_titles.union(recs)
+    res = df[np.isin(df['title'], list(rec_titles))].sort_values('weighted_rating', ascending=False)
     return res
 
 
