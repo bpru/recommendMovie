@@ -55,7 +55,7 @@ def gen_figs(df, id):
 # ])
 
 index_page = html.Div(children=[
-    html.H4('Welcome! Please select the movies you like from the top rated movies from 2012 to 2017', style={'textAlign': 'center'}, className='jumbotron'),
+    html.H4('Welcome! Please select the movies you like from the top rated movies from 2012 to 2017:', style={'textAlign': 'center'}, className='jumbotron'),
     gen_figs(df, 'all_movies'),
     html.H4('Your selection:'),
     html.Div(id='output'),
